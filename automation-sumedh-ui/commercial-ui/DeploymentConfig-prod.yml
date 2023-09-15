@@ -1,0 +1,38 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  name: entportal-commercial-ui
+spec:
+  replicas: 2
+  strategy:
+    type: Rolling
+    rollingParams:
+      updatePeriodSeconds: 1
+      intervalSeconds: 1
+    resources:
+      limits:
+        cpu: 800m
+        memory: 1500Mi
+      requests:
+        cpu: 800m
+        memory: 1500Mi
+  template:
+    metadata:
+      labels:
+        app: entportal-commercial-ui
+    spec:
+      imagePullSecrets:
+        - name: artifactory-secret
+      containers:
+        - name: entportal-commercial-ui
+          image: enterpriseprotal-docker-release-local.artifactory.dhl.com/enterpriseprotal-docker-prod/entportal-a2a-ui:latest
+          ports:
+          - containerPort: 7058
+            protocol: TCP
+          resources:
+            limits:
+              cpu: "800m"
+              memory: "1500Mi"
+            requests:
+              cpu: "800m"
+              memory: "1500Mi"
